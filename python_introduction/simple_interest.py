@@ -1,9 +1,12 @@
-monthly_income = float(input("Enter your monthly income: "))
-monthly_expenses = float(input("Enter your total monthly expenses: "))
+# simple_interest.py
 
-Monthly_Savings = monthly_income - monthly_expenses
+# Define the variables
+principal = 1000       # Principal amount in dollars
+rate = 0.05            # Annual interest rate (5%)
+time = 3               # Time in years
 
-Projected_Savings = Monthly_Savings * 12 + (Monthly_Savings * 12 * 0.05)
+# Calculate simple interest
+interest = principal * rate * time
 
-print(f"Your monthly savings are ${Monthly_Savings}.")
-print(f"Projected savings after one year, with interest, is: ${Projected_Savings:.2f}.")
+# Print the result
+print("The simple interest is:", interest)
