@@ -1,32 +1,28 @@
 # daily_reminder.py
 
-# Step 1: Gather inputs
-task = input("Enter your task for today: ")
-priority = input("Enter the priority level (high, medium, low): ").lower()
-time_bound = input("Is the task time-sensitive? (yes or no): ").lower()
-
-# Step 2: Process using match-case
-match priority:
-    case "high":
-        message = f"🔴 High Priority Task: {task}"
-    case "medium":
-        message = f"🟠 Medium Priority Task: {task}"
-    case "low":
-        message = f"🟢 Low Priority Task: {task}"
-    case _:
-        message = f"⚪ Unknown Priority Task: {task}"
-
-# Step 3: Check if the task is time-bound
-if time_bound == "yes":
-    message += " – This task requires immediate attention today! ⏰"
-
-# Step 4: Loop until user confirms task
-print("\nYour Daily Reminder:")
 while True:
-    print(message)
-    done = input("Have you completed this task? (yes to confirm): ").lower()
-    if done == "yes":
-        print("✅ Great job! Task marked as complete.")
-        break
+    task = input("Enter your task: ").strip()
+    priority = input("Priority (high/medium/low): ").strip().lower()
+    time_bound = input("Is it time-bound? (yes/no): ").strip().lower()
+
+    match priority:
+        case "high":
+            reminder = f"'{task}' is a high priority task"
+        case "medium":
+            reminder = f"'{task}' is a medium priority task"
+        case "low":
+            reminder = f"'{task}' is a low priority task"
+        case _:
+            print("Invalid priority. Please enter high, medium, or low.\n")
+            continue  # loop again for valid input
+
+    if time_bound == "yes":
+        reminder += " that requires immediate attention today!"
+    elif time_bound == "no":
+        reminder += ". Consider completing it when you have free time."
     else:
-        print("🔁 Reminder: Don't forget to finish your task!\n")
+        print("Invalid input for time-bound. Please enter yes or no.\n")
+        continue  # loop again for valid input
+
+    print("\nReminder:", reminder)
+    break  # exit the loop after valid output
