@@ -17,5 +17,5 @@ match operation:
             result = "Cannot divide by zero."
     case _:
         result = "Error: Invalid operation."
-print(f"result is: {result}")
+print(f"The result is: {result}")
 # match_case_calculator.py
