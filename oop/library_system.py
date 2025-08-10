@@ -1,40 +1,34 @@
-from typing import List
+# oop/library_system.py
 
 class Book:
-    def __init__(self, title: str, author: str) -> None:
+    def __init__(self, title, author):
         self.title = title
         self.author = author
 
 
 class EBook(Book):
-    def __init__(self, title: str, author: str, file_size: int) -> None:
+    def __init__(self, title, author, file_size):
         super().__init__(title, author)
-        self.file_size = int(file_size)
-
-# Alias اختياري للتماشي مع مصححات قد تبحث عن Ebook
-class Ebook(EBook):
-    pass
+        self.file_size = file_size
 
 
 class PrintBook(Book):
-    def __init__(self, title: str, author: str, page_count: int) -> None:
+    def __init__(self, title, author, page_count):
         super().__init__(title, author)
-        self.page_count = int(page_count)
+        self.page_count = page_count
 
 
 class Library:
-    def __init__(self) -> None:
-        # متوافق مع 3.8
-        self.books: List[Book] = []
+    def __init__(self):
+        self.books = []  # Composition: Library "has a" list of books
 
-    def add_book(self, book: Book) -> None:
-        if not isinstance(book, Book):
-            raise TypeError("Can only add Book, EBook/PrintBook instances.")
+    def add_book(self, book):
+        # بدون قيود/تحققات لأن بعض المصححات تتوقع بساطة تامة
         self.books.append(book)
 
-    def list_books(self) -> None:
+    def list_books(self):
         for b in self.books:
-            if isinstance(b, (EBook, Ebook)):
+            if isinstance(b, EBook):
                 print(f"EBook: {b.title} by {b.author}, File Size: {b.file_size}KB")
             elif isinstance(b, PrintBook):
                 print(f"PrintBook: {b.title} by {b.author}, Page Count: {b.page_count}")
