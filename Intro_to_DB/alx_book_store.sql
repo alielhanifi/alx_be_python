@@ -1,73 +1,47 @@
--- ALX_BOOK_STORE DATABASE SCHEMA
--- NOTE: ALL SQL KEYWORDS ARE IN UPPERCASE AS REQUESTED
-
+-- Create the database if it doesn't already exist
 CREATE DATABASE IF NOT EXISTS alx_book_store;
+
+-- Use the newly created database
 USE alx_book_store;
 
--- AUTHORS TABLE
-CREATE TABLE IF NOT EXISTS authors (
+-- Create the Authors table
+CREATE TABLE Authors (
     author_id INT AUTO_INCREMENT PRIMARY KEY,
     author_name VARCHAR(215) NOT NULL
-) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+);
 
--- BOOKS TABLE
-CREATE TABLE IF NOT EXISTS books (
+-- Create the Books table
+CREATE TABLE Books (
     book_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(130) NOT NULL,
-    author_id INT NOT NULL,
+    author_id INT,
     price DOUBLE NOT NULL,
-    publication_date DATE NOT NULL,
-    CONSTRAINT fk_books_author
-        FOREIGN KEY (author_id)
-        REFERENCES authors(author_id)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT,
-    INDEX idx_books_author_id (author_id),
-    INDEX idx_books_title (title)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+    publication_date DATE,
+    FOREIGN KEY (author_id) REFERENCES Authors(author_id)
+);
 
--- CUSTOMERS TABLE
-CREATE TABLE IF NOT EXISTS customers (
+-- Create the Customers table
+CREATE TABLE Customers (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_name VARCHAR(215) NOT NULL,
     email VARCHAR(215) NOT NULL,
-    address TEXT NOT NULL,
-    UNIQUE KEY uq_customers_email (email)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+    address TEXT
+);
 
--- ORDERS TABLE
-CREATE TABLE IF NOT EXISTS orders (
+-- Create the Orders table
+CREATE TABLE Orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
+    customer_id INT,
     order_date DATE NOT NULL,
-    CONSTRAINT fk_orders_customer
-        FOREIGN KEY (customer_id)
-        REFERENCES customers(customer_id)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT,
-    INDEX idx_orders_customer_id (customer_id),
-    INDEX idx_orders_order_date (order_date)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
 
--- ORDER_DETAILS TABLE
-CREATE TABLE IF NOT EXISTS order_details (
+-- Create the Order_Details table
+CREATE TABLE Order_Details (
     orderdetailid INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
-    book_id INT NOT NULL,
+    order_id INT,
+    book_id INT,
     quantity DOUBLE NOT NULL,
-    CONSTRAINT fk_orderdetails_order
-        FOREIGN KEY (order_id)
-        REFERENCES orders(order_id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    CONSTRAINT fk_orderdetails_book
-        FOREIGN KEY (book_id)
-        REFERENCES books(book_id)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT,
-    CONSTRAINT uq_orderdetails_order_book UNIQUE (order_id, book_id),
-    INDEX idx_orderdetails_order_id (order_id),
-    INDEX idx_orderdetails_book_id (book_id)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
-
--- END OF SCHEMA
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (book_id) REFERENCES Books(book_id)
+);
